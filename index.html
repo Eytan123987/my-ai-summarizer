@@ -3,212 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartStudy Bagrut ULTIMATE | Pro</title>
+    <title>SmartStudy Ultimate PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: white; font-family: 'Assistant', sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .gradient-text { background: linear-gradient(90deg, #60a5fa, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .input-dark { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px; color: white; outline: none; transition: 0.3s; }
-        .input-dark:focus { border-color: #3b82f6; background: rgba(255,255,255,0.08); }
-        .btn-primary { background: linear-gradient(135deg, #2563eb, #0891b2); transition: 0.3s; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(37, 99, 235, 0.5); }
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700;800&display=swap');
+        body { font-family: 'Assistant', sans-serif; background: #020617; color: white; scroll-behavior: smooth; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        .premium-btn { background: linear-gradient(90deg, #f59e0b, #ef4444); transition: 0.3s; }
+        .premium-btn:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+        #paymentPage { display: none; }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <nav class="p-6 border-b border-white/5 flex justify-between items-center max-w-7xl mx-auto">
-        <div class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-black text-2xl shadow-lg">S</div>
-            <h1 class="text-3xl font-black gradient-text tracking-tighter">SmartStudy</h1>
+    <div id="paymentPage" class="fixed inset-0 z-[100] bg-slate-950/95 flex items-center justify-center p-6">
+        <div class="glass max-w-md w-full p-8 text-center border-2 border-amber-500">
+            <h2 class="text-3xl font-bold text-amber-500 mb-4">SmartStudy GOLD 👑</h2>
+            <p class="text-slate-300 mb-8">שחרר את כל החסמים. סיכומים ללא הגבלה, מהירות פי 5 ותמיכה אישית.</p>
+            <div class="bg-white/5 p-4 rounded-xl mb-6">
+                <span class="text-4xl font-black">₪29.90</span> / חודש
+            </div>
+            <button onclick="alert('מעביר לתשלום...')" class="w-full premium-btn py-4 rounded-xl font-bold text-xl mb-4">רכוש מנוי עכשיו</button>
+            <button onclick="closePayment()" class="text-slate-500 underline text-sm">חזור לאתר</button>
         </div>
-        <div id="userArea"></div>
+    </div>
+
+    <nav class="p-6 border-b border-white/5 flex justify-between items-center sticky top-0 bg-slate-950/90 z-50 backdrop-blur-md">
+        <h1 class="text-2xl font-black italic bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">SMARTSTUDY PRO</h1>
+        <div id="authArea">
+            <button onclick="login()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full font-bold transition shadow-lg">התחבר עם Google</button>
+        </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <aside class="lg:col-span-3 space-y-6">
-            <div class="glass p-6 rounded-3xl border-blue-500/20 shadow-xl">
-                <h4 class="font-bold text-blue-400 mb-4 flex items-center gap-2">📊 מחשבון 30/70</h4>
+    <main class="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <aside class="lg:col-span-3 space-y-4">
+            <div class="glass p-6">
+                <h4 class="font-bold text-blue-400 mb-4 italic">פיצ'רים פעילים</h4>
                 <div class="space-y-3">
-                    <input type="number" id="magenScore" class="input-dark w-full text-center" placeholder="ציון מגן">
-                    <input type="number" id="examScore" class="input-dark w-full text-center" placeholder="ציון בחינה">
-                    <button onclick="calcScore()" class="w-full bg-blue-600/20 text-blue-400 py-2 rounded-xl font-bold border border-blue-500/30 hover:bg-blue-600 hover:text-white transition">חשב סופי</button>
-                    <div id="finalScoreResult" class="text-center font-black text-3xl text-white mt-2"></div>
+                    <button onclick="speakText()" class="w-full p-4 bg-slate-800 hover:bg-slate-700 rounded-xl text-right flex items-center gap-3 transition">🔊 הקראה קולית</button>
+                    <button onclick="runAI('translate')" class="w-full p-4 bg-slate-800 hover:bg-slate-700 rounded-xl text-right flex items-center gap-3 transition">🌍 תרגום לאנגלית</button>
+                    <button onclick="runAI('quiz')" class="w-full p-4 bg-blue-600/20 border border-blue-500/50 hover:bg-blue-600/40 rounded-xl text-right flex items-center gap-3 transition font-bold">🎯 בוחן פתע</button>
+                    <button onclick="openPayment()" class="w-full p-4 premium-btn rounded-xl text-right flex items-center gap-3 font-bold">👑 גרסת זהב</button>
                 </div>
-            </div>
-
-            <div class="glass p-6 rounded-3xl border-yellow-500/20 text-center shadow-xl">
-                <p class="text-xs text-yellow-500 font-bold mb-2">מצב ריכוז (פומודורו)</p>
-                <div id="pomoDisplay" class="text-3xl font-black mb-4 tracking-widest">25:00</div>
-                <button id="pomoBtn" onclick="togglePomo()" class="bg-yellow-500 text-black px-6 py-2 rounded-full text-xs font-black uppercase tracking-wider">הפעל</button>
             </div>
         </aside>
 
-        <div class="lg:col-span-9 space-y-6">
-            <section id="appBox" class="glass p-8 rounded-[2.5rem] relative overflow-hidden border-white/10 shadow-2xl">
-                <div id="lockOverlay" class="absolute inset-0 z-50 flex items-center justify-center bg-slate-950/95 backdrop-blur-xl rounded-[2.5rem]">
-                    <button onclick="login()" class="btn-primary px-12 py-5 rounded-2xl font-black text-xl shadow-2xl">התחברות מאובטחת</button>
+        <section class="lg:col-span-9 space-y-6">
+            <div class="glass p-8 shadow-2xl">
+                <textarea id="userInput" class="w-full h-64 bg-transparent border-none text-xl outline-none placeholder-slate-700 resize-none" placeholder="הדבק כאן את החומר לסיכום..."></textarea>
+                <div class="flex justify-between items-center mt-6 pt-6 border-t border-white/5">
+                    <div id="status" class="text-slate-500 text-sm italic">מערכת מוכנה לעבודה</div>
+                    <button id="mainBtn" onclick="runAI('summarize')" class="bg-gradient-to-r from-blue-600 to-emerald-500 px-12 py-5 rounded-2xl font-black text-lg shadow-xl hover:scale-105 active:scale-95 transition">
+                        סכם עכשיו ✨
+                    </button>
                 </div>
-
-                <div class="flex justify-between items-center mb-6">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">System Ready - Unlimited</span>
-                    </div>
-                </div>
-
-                <textarea id="userInput" class="w-full h-72 bg-white/5 border border-white/10 rounded-3xl p-6 text-white text-lg focus:border-blue-500/50 outline-none transition-all mb-6 resize-none shadow-inner" placeholder="הדבק כאן סיכומים, פרקים מספרים או שאלות..."></textarea>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button id="mainBtn" onclick="processAI('summary')" class="btn-primary text-white font-black py-5 rounded-2xl text-xl">סכם לי הכל ✨</button>
-                    <button id="quizBtn" onclick="processAI('quiz')" class="bg-slate-800 hover:bg-slate-700 text-white font-black py-5 rounded-2xl text-xl border border-white/10 transition-all">צור שאלות תרגול ✍️</button>
-                </div>
-            </section>
-
-            <div id="resultArea" class="hidden glass p-8 rounded-[2.5rem] border-r-8 border-blue-600 relative animate-in fade-in slide-in-from-bottom-4 duration-500 shadow-2xl">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-2xl font-black text-blue-400 italic">התוצאה המוכנה:</h3>
-                    <div class="flex gap-4">
-                        <button onclick="speakText()" class="text-2xl hover:scale-110 transition">🔊</button>
-                        <button onclick="copyText()" class="text-2xl hover:scale-110 transition">📋</button>
-                    </div>
-                </div>
-                <div id="summaryOutput" class="text-slate-200 text-lg leading-relaxed space-y-4"></div>
             </div>
-        </div>
+
+            <div id="resultBox" class="hidden glass p-8 border-r-8 border-emerald-500 shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-emerald-400 italic">התוצאה:</h3>
+                    <button onclick="copyText()" class="bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm transition">העתק 📋</button>
+                </div>
+                <div id="output" class="text-slate-200 text-lg leading-relaxed whitespace-pre-wrap"></div>
+            </div>
+        </section>
     </main>
 
     <script>
+        // Firebase Config (בדיוק המזהים שלך)
         const firebaseConfig = {
-            apiKey: "AIzaSyABZLTWaBJ6-i3cMQ7m9z5NavlSPjcfjDE",
+            apiKey: "AIzaSyBqQW0MassV2A1zgAuNPmGGgrTbujaw9PI",
             authDomain: "smartstudy-445f5.firebaseapp.com",
             projectId: "smartstudy-445f5",
             storageBucket: "smartstudy-445f5.firebasestorage.app",
             messagingSenderId: "970794059408",
-            appId: "1:970794059408:web:9ba84746eedaf761f73a15"
+            appId: "1:970794059408:web:896c21a0f82312d8a70597"
         };
-
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const provider = new firebase.auth.GoogleAuthProvider();
 
-        // Wake up Render server on load
-        window.addEventListener('load', () => {
-            fetch('https://my-smart-study.onrender.com/summarize', { method: 'OPTIONS' }).catch(() => {});
-        });
+        let user = null;
 
-        function login() { auth.signInWithPopup(provider); }
-        function logout() { auth.signOut(); }
-
-        auth.onAuthStateChanged(user => {
-            const overlay = document.getElementById('lockOverlay');
-            const userArea = document.getElementById('userArea');
-            if (user) {
-                overlay.classList.add('hidden');
-                userArea.innerHTML = `<div class="flex items-center gap-3 bg-white/5 p-1 pr-4 rounded-full border border-white/10"><span class="text-sm font-bold text-blue-400">${user.displayName.split(' ')[0]}</span><img src="${user.photoURL}" class="w-8 h-8 rounded-full border-2 border-blue-500"><button onclick="logout()" class="text-xs text-slate-500 px-2 hover:text-red-400 transition">צא</button></div>`;
-            } else {
-                overlay.classList.remove('hidden');
-                userArea.innerHTML = `<button onclick="login()" class="bg-blue-600 px-6 py-2 rounded-full font-bold shadow-lg shadow-blue-500/20">כניסה</button>`;
-            }
-        });
-
-        // Smart Retry Logic - ינסה 5 פעמים עם המתנה הולכת וגדלה
-        async function smartFetch(url, body, mode) {
-            let attempt = 0;
-            const maxAttempts = 5;
-            
-            while (attempt < maxAttempts) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(body)
-                    });
-                    if (response.ok) return await response.json();
-                } catch (e) {
-                    attempt++;
-                    console.log(`ניסיון ${attempt} נכשל, מעורר שרת...`);
-                    // מחכה יותר זמן בכל ניסיון
-                    await new Promise(r => setTimeout(r, attempt * 3000)); 
-                }
-            }
-            throw new Error("Server Timeout");
+        function login() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).then(res => {
+                user = res.user;
+                document.getElementById('authArea').innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-bold text-emerald-400">${user.displayName}</span>
+                        <img src="${user.photoURL}" class="w-10 h-10 rounded-full border-2 border-blue-500">
+                    </div>`;
+            }).catch(e => alert("שגיאה בהתחברות. וודא שאישרת את הדומיין ב-Firebase."));
         }
 
-        async function processAI(mode) {
+        async function runAI(type) {
+            if (!user) return alert("חובה להתחבר עם המייל קודם!");
             const text = document.getElementById('userInput').value;
-            if (!text) return alert("הזן טקסט קודם");
+            if (!text) return alert("הכנס טקסט!");
 
-            const btn = (mode === 'summary') ? document.getElementById('mainBtn') : document.getElementById('quizBtn');
-            const output = document.getElementById('summaryOutput');
-            const resultArea = document.getElementById('resultArea');
-            const originalText = btn.innerText;
+            const status = document.getElementById('status');
+            const output = document.getElementById('output');
+            const resultBox = document.getElementById('resultBox');
 
-            btn.disabled = true;
-            btn.innerText = "מעיר את השרת (זה יקרה רק פעם אחת)... 🚀";
-            resultArea.classList.remove('hidden');
-            output.innerHTML = "ה-AI בדרך! אנחנו דופקים על הדלת של השרת עד שהוא יפתח...";
+            status.innerText = "ה-AI בעבודה...";
+            resultBox.classList.remove('hidden');
+            output.innerText = "מעבד את המידע...";
+            output.scrollIntoView({ behavior: 'smooth' });
 
             try {
-                const data = await smartFetch('https://my-smart-study.onrender.com/summarize', { text, mode });
+                const res = await fetch('https://my-smart-study.onrender.com/summarize', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ text, type })
+                });
+                const data = await res.json();
+                
+                // עיצוב כוכביות
                 let formatted = data.summary.replace(/\*\*(.*?)\*\*/g, '<b class="text-blue-400 font-bold">$1</b>');
-                output.innerHTML = formatted.replace(/\n/g, '<br>');
-                resultArea.scrollIntoView({ behavior: 'smooth' });
+                output.innerHTML = formatted;
+                status.innerText = "הושלם בהצלחה!";
             } catch (e) {
-                output.innerHTML = "אוף, השרת עדיין לא קם. נסה ללחוץ שוב בעוד 10 שניות, הוא כבר ממש קרוב להתעורר!";
-            } finally {
-                btn.disabled = false;
-                btn.innerText = originalText;
+                output.innerText = "שגיאה בתקשורת עם השרת.";
             }
         }
 
-        function calcScore() {
-            const m = Number(document.getElementById('magenScore').value);
-            const e = Number(document.getElementById('examScore').value);
-            if (!m || !e) return;
-            const res = Math.round((m * 0.3) + (e * 0.7));
-            document.getElementById('finalScoreResult').innerText = res;
-        }
-
-        let pomoActive = false;
-        let pomoInterval;
-        function togglePomo() {
-            const btn = document.getElementById('pomoBtn');
-            if (pomoActive) {
-                clearInterval(pomoInterval);
-                btn.innerText = "המשך";
-                pomoActive = false;
-            } else {
-                let sec = 25 * 60;
-                pomoInterval = setInterval(() => {
-                    sec--;
-                    let mins = Math.floor(sec / 60);
-                    let secs = sec % 60;
-                    document.getElementById('pomoDisplay').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-                    if (sec <= 0) {
-                        clearInterval(pomoInterval);
-                        alert("זמן להפסקה!");
-                    }
-                }, 1000);
-                btn.innerText = "עצור";
-                pomoActive = true;
-            }
-        }
-
+        // --- פיצ'רים נוספים ---
         function speakText() {
-            const msg = new SpeechSynthesisUtterance(document.getElementById('summaryOutput').innerText);
+            const text = document.getElementById('output').innerText;
+            if(!text) return;
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
             msg.lang = 'he-IL';
             window.speechSynthesis.speak(msg);
         }
 
-        function copyText() {
-            navigator.clipboard.writeText(document.getElementById('summaryOutput').innerText);
-            alert("הועתק!");
-        }
+        function openPayment() { document.getElementById('paymentPage').style.display = 'flex'; }
+        function closePayment() { document.getElementById('paymentPage').style.display = 'none'; }
+        function copyText() { navigator.clipboard.writeText(document.getElementById('output').innerText); alert("הועתק!"); }
     </script>
 </body>
 </html>
