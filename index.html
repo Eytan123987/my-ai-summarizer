@@ -85,7 +85,7 @@
 
         let user = null;
 
-        // מנגנון זיהוי משתמש משופר
+        // מנגנון זיהוי משתמש - עובד גם אחרי ה-Redirect של גוגל
         firebase.auth().onAuthStateChanged((u) => {
             if (u) {
                 user = u;
@@ -94,20 +94,15 @@
                         <span class="text-sm font-bold text-emerald-400 italic">${user.displayName}</span>
                         <img src="${user.photoURL}" class="w-10 h-10 rounded-full border-2 border-blue-500">
                     </div>`;
-                document.getElementById('status').innerText = "שלום " + user.displayName + ", המערכת מוכנה.";
+                document.getElementById('status').innerText = "מחובר: " + user.displayName;
             }
         });
 
+        // פונקציית ההתחברות החדשה - לא נסגרת לעולם!
         window.login = function() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).catch(err => {
-                console.error(err);
-                if(err.code === "auth/unauthorized-domain") {
-                    alert("שגיאה: הדומיין לא מאושר ב-Firebase. כנס להגדרות Authentication והוסף את הלינק של האתר.");
-                } else {
-                    firebase.auth().signInWithRedirect(provider);
-                }
-            });
+            // משתמשים ב-Redirect כדי למנוע את החלון שנסגר מייד
+            firebase.auth().signInWithRedirect(provider);
         };
 
         window.runAI = async function(type) {
@@ -131,7 +126,7 @@
                 const result = await model.generateContent(prompt);
                 const response = await result.response;
                 output.innerHTML = response.text().replace(/\*\*(.*?)\*\*/g, '<b class="text-blue-400">$1</b>');
-                status.innerHTML = `<span class="text-emerald-500 font-bold">✅ הושלם בשיא המהירות!</span>`;
+                status.innerHTML = `<span class="text-emerald-500 font-bold">✅ הושלם!</span>`;
                 resultBox.scrollIntoView({ behavior: 'smooth' });
             } catch (e) {
                 output.innerText = "שגיאה בחיבור ל-AI.";
