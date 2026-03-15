@@ -3,93 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartStudy ULTIMATE | Unlimited AI</title>
+    <title>SmartStudy Bagrut Edition | 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700;800&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: white; font-family: 'Assistant', sans-serif; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .premium-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #3b82f6; }
-        .btn-pay { background: linear-gradient(90deg, #f59e0b, #ef4444); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        body { background: #020617; color: white; font-family: 'Assistant', sans-serif; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .gradient-text { background: linear-gradient(90deg, #60a5fa, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar-item:hover { background: rgba(59, 130, 246, 0.1); border-right: 4px solid #3b82f6; }
+        .card-anim { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-anim:hover { transform: scale(1.02); border-color: rgba(59, 130, 246, 0.5); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen flex flex-col">
 
-    <div class="bg-blue-600 py-1.5 text-center text-[11px] font-black uppercase tracking-[0.2em]">
-        🔓 Unlimited Access Enabled - גרסה עסקית פתוחה לכולם
+    <div class="bg-indigo-900/50 py-1 text-center text-[10px] font-bold tracking-widest text-indigo-300 border-b border-indigo-500/20">
+        LIVE UPDATES: מועד ב' מתמטיקה - עוד 42 ימים | תנ"ך - עוד 12 ימים
     </div>
 
-    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto border-b border-white/5">
-        <div class="flex items-center gap-2">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center font-black text-2xl shadow-lg shadow-blue-500/50">S</div>
-            <h1 class="text-2xl font-black italic tracking-tighter">SMART<span class="text-blue-500 font-black">STUDY</span></h1>
-        </div>
-        <div id="userProfile" class="flex gap-4"></div>
-    </nav>
-
-    <main class="max-w-6xl mx-auto px-6 pt-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        <div class="lg:col-span-3 space-y-6">
-            <div class="glass p-6 rounded-3xl premium-card shadow-2xl">
-                <h3 class="text-xl font-black text-yellow-500 mb-2">SmartStudy GOLD 👑</h3>
-                <p class="text-[11px] text-slate-400 mb-4 italic">תמוך במפתח וקבל גישה לשרתים הכי מהירים בעולם ותמיכה אישית.</p>
-                <button onclick="payNow()" class="w-full btn-pay text-white font-black py-3 rounded-xl shadow-lg shadow-orange-500/20 transition active:scale-95">
-                    שדרג עכשיו - ₪19.90
-                </button>
+    <div class="flex flex-1 overflow-hidden">
+        <aside class="w-64 glass border-l border-white/5 hidden md:flex flex-col p-4">
+            <div class="mb-10 p-2">
+                <h1 class="text-2xl font-black gradient-text">SmartStudy</h1>
+                <p class="text-[10px] text-slate-500 font-bold uppercase tracking-tighter">Bagrut Mastery Pro</p>
             </div>
             
-            <div class="glass p-5 rounded-2xl border-white/5">
-                <h4 class="font-bold text-xs mb-3 text-slate-400">סטטוס מערכת:</h4>
-                <div class="flex items-center gap-2 text-green-400 text-sm font-bold">
-                    <span class="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>
-                    מחובר (ללא הגבלה)
-                </div>
+            <nav class="space-y-2 flex-1">
+                <div class="sidebar-item p-3 rounded-xl cursor-pointer bg-blue-600/10 text-blue-400 font-bold">🏠 דף הבית</div>
+                <div class="sidebar-item p-3 rounded-xl cursor-pointer text-slate-400">📝 מחולל סיכומים</div>
+                <div class="sidebar-item p-3 rounded-xl cursor-pointer text-slate-400">🧠 תרגול שאלונים</div>
+                <div class="sidebar-item p-3 rounded-xl cursor-pointer text-slate-400">📅 לוח בגרויות 2026</div>
+                <div class="sidebar-item p-3 rounded-xl cursor-pointer text-slate-400">📽️ שיעורי וידאו</div>
+            </nav>
+
+            <div class="glass p-4 rounded-2xl border-yellow-500/20">
+                <p class="text-[10px] text-yellow-500 font-bold mb-1">מצב ריכוז (Pomodoro)</p>
+                <div id="pomoTimer" class="text-xl font-black text-center mb-2">25:00</div>
+                <button onclick="startPomo()" class="w-full text-[10px] bg-yellow-500/20 text-yellow-500 py-1 rounded-lg border border-yellow-500/30">הפעל טיימר</button>
             </div>
-        </div>
+        </aside>
 
-        <div class="lg:col-span-9 space-y-6">
-            <div id="appContainer" class="glass p-8 rounded-[2.5rem] relative overflow-hidden border-white/10 shadow-2xl">
-                <div id="lockOverlay" class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl rounded-[2.5rem]">
-                    <div class="w-20 h-20 bg-blue-600/20 rounded-full flex items-center justify-center mb-6">
-                        <span class="text-4xl">🔐</span>
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+            
+            <header class="flex justify-between items-center mb-8">
+                <div class="md:hidden font-black text-xl italic">SS</div>
+                <div id="userArea" class="flex items-center gap-4">
                     </div>
-                    <h2 class="text-3xl font-black mb-2 text-center">המרכז ללמידה חכמה</h2>
-                    <p class="text-slate-400 mb-8">התחבר כדי לפתוח את כלי ה-AI המתקדמים</p>
-                    <button onclick="login()" class="bg-blue-600 hover:bg-blue-500 px-12 py-4 rounded-full font-black text-xl transition transform active:scale-95 shadow-2xl shadow-blue-600/20">
-                        התחבר עם Google
-                    </button>
-                </div>
+            </header>
 
-                <div class="flex justify-between items-center mb-6">
-                    <span class="text-[10px] font-black text-blue-500 tracking-widest uppercase">AI Analyzer Pro v4.2</span>
-                    <span class="text-[10px] bg-green-500/10 px-3 py-1 rounded-full text-green-400 font-bold border border-green-500/20">System Online</span>
-                </div>
-
-                <textarea id="userInput" class="w-full h-72 bg-white/5 border border-white/10 rounded-3xl p-6 text-white text-lg focus:border-blue-500/50 outline-none transition-all mb-6 resize-none shadow-inner" placeholder="הדבק כאן את הטקסט לסיכום..."></textarea>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <button id="mainBtn" onclick="processAI()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-2xl text-2xl shadow-xl transition-all transform active:scale-[0.98]">
-                    צור חבילת למידה מלאה 🚀
-                </button>
-            </div>
-
-            <div id="resultArea" class="hidden space-y-6">
-                <div class="glass p-8 rounded-[2.5rem] border-r-8 border-blue-600 relative shadow-2xl">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-black text-blue-400 italic tracking-tighter underline decoration-blue-500/30">הסיכום המוכן שלך</h3>
-                        <div class="flex gap-4">
-                            <button onclick="speakText()" class="hover:scale-125 transition text-2xl" title="הקרא בקול">🔊</button>
-                            <button onclick="copyText()" class="hover:scale-125 transition text-2xl" title="העתק טקסט">📋</button>
+                <div class="lg:col-span-2 space-y-6">
+                    <section id="mainApp" class="glass rounded-[2rem] p-8 relative border-white/5 shadow-2xl">
+                        <div id="lockOverlay" class="absolute inset-0 z-50 flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl rounded-[2rem]">
+                            <button onclick="login()" class="bg-blue-600 px-10 py-4 rounded-2xl font-black shadow-2xl shadow-blue-500/40 hover:scale-105 transition">התחבר למרכז הלמידה</button>
                         </div>
+
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-extrabold italic">מחולל סיכומים חכם</h2>
+                            <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-1 rounded">Server: Active</span>
+                        </div>
+
+                        <textarea id="userInput" class="w-full h-64 bg-slate-900/50 border border-white/10 rounded-2xl p-6 text-white text-lg focus:border-blue-500 outline-none transition-all mb-4 resize-none" placeholder="הדבק כאן את החומר לבגרות..."></textarea>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <button onclick="processAI('summary')" class="bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-bold transition">סכם לי הכל ✨</button>
+                            <button onclick="processAI('quiz')" class="bg-slate-800 hover:bg-slate-700 py-4 rounded-xl font-bold border border-white/10 transition">צור שאלות בגרות ✍️</button>
+                        </div>
+                    </section>
+
+                    <div id="resultArea" class="hidden glass p-8 rounded-[2rem] border-r-8 border-blue-500 animate-in fade-in duration-500">
+                        <div class="flex justify-between mb-4">
+                            <h3 class="text-blue-400 font-bold">התוצאה שלך:</h3>
+                            <button onclick="speakText()" class="text-xl">🔊</button>
+                        </div>
+                        <div id="summaryOutput" class="text-slate-200 text-lg leading-relaxed"></div>
                     </div>
-                    <div id="summaryOutput" class="text-slate-200 text-lg leading-relaxed space-y-4"></div>
                 </div>
+
+                <div class="space-y-6">
+                    <div class="glass p-6 rounded-3xl card-anim border-orange-500/20">
+                        <h4 class="text-orange-400 font-bold mb-3 flex items-center gap-2">💡 טיפ יומי לבגרות</h4>
+                        <p class="text-sm text-slate-300 italic">"אל תנסו לזכור הכל בעל פה. בסיכום שקיבלת, תמרקרו רק את מושגי המפתח."</p>
+                    </div>
+
+                    <div class="glass p-6 rounded-3xl space-y-3">
+                        <h4 class="font-bold text-sm text-slate-400 mb-2 uppercase tracking-widest">קישורים מהירים</h4>
+                        <a href="https://pop.education.gov.il/mivchanim-ve-ha-aracha/mivchane-bagrut/" target="_blank" class="block bg-white/5 p-3 rounded-xl hover:bg-white/10 transition text-sm">📁 מאגר בחינות עבר</a>
+                        <a href="#" class="block bg-white/5 p-3 rounded-xl hover:bg-white/10 transition text-sm">🤖 צ'אט עם מורה AI</a>
+                        <a href="#" class="block bg-white/5 p-3 rounded-xl hover:bg-white/10 transition text-sm">📊 מחשבון ציון סופי</a>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-indigo-600 to-blue-700 p-6 rounded-3xl shadow-2xl shadow-blue-500/20">
+                        <h4 class="text-xl font-bold mb-2">SmartStudy Gold 👑</h4>
+                        <p class="text-xs text-blue-100 mb-4 opacity-80">קבל סיכומים ארוכים יותר וגישה למאגר שאלות מורחב.</p>
+                        <button class="w-full bg-white text-blue-600 font-black py-2 rounded-xl text-sm">שדרג עכשיו (₪19.90)</button>
+                    </div>
+                </div>
+
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
         const firebaseConfig = {
@@ -105,74 +123,86 @@
         const auth = firebase.auth();
         const provider = new firebase.auth.GoogleAuthProvider();
 
+        // Keep Alive - מעיר את השרת מיד כשהדף נטען
+        window.addEventListener('load', () => {
+            fetch('https://my-smart-study.onrender.com/summarize', { method: 'OPTIONS' }).catch(() => {});
+        });
+
         function login() { auth.signInWithPopup(provider); }
         function logout() { auth.signOut(); }
 
         auth.onAuthStateChanged(user => {
             const overlay = document.getElementById('lockOverlay');
-            const profile = document.getElementById('userProfile');
+            const userArea = document.getElementById('userArea');
             if (user) {
                 overlay.classList.add('hidden');
-                profile.innerHTML = `
-                    <div class="flex items-center gap-3 bg-white/5 p-1.5 pr-5 rounded-full border border-white/10 shadow-lg">
-                        <span class="text-sm font-black text-blue-400">${user.displayName.split(' ')[0]}</span>
-                        <img src="${user.photoURL}" class="w-8 h-8 rounded-full border-2 border-blue-500">
-                        <button onclick="logout()" class="text-[10px] text-slate-500 hover:text-red-400 px-2 transition">צא</button>
+                userArea.innerHTML = `
+                    <div class="flex items-center gap-3 bg-white/5 p-1 pr-4 rounded-full border border-white/10">
+                        <span class="text-sm font-bold text-blue-400">${user.displayName.split(' ')[0]}</span>
+                        <img src="${user.photoURL}" class="w-8 h-8 rounded-full border border-blue-500">
+                        <button onclick="logout()" class="text-xs text-slate-500 px-2">צא</button>
                     </div>
                 `;
             } else {
                 overlay.classList.remove('hidden');
-                profile.innerHTML = `<button onclick="login()" class="bg-blue-600 px-6 py-2 rounded-full font-bold shadow-lg">התחברות</button>`;
+                userArea.innerHTML = `<button onclick="login()" class="bg-blue-600 px-6 py-2 rounded-full font-bold">כניסת תלמידים</button>`;
             }
         });
 
-        async function processAI() {
+        async function processAI(mode) {
             const text = document.getElementById('userInput').value;
-            if (!text) return alert("אנא הזן טקסט לסיכום");
-            const btn = document.getElementById('mainBtn');
+            if (!text) return alert("אנא הזן טקסט");
+
+            const btn = document.querySelector(`button[onclick="processAI('${mode}')"]`);
             const output = document.getElementById('summaryOutput');
-            const resultArea = document.getElementById('resultArea');
+            const originalText = btn.innerText;
 
             btn.disabled = true;
-            btn.innerText = "מעורר את השרת... (הניסיון הראשון לוקח רגע) ⏳";
-            
+            btn.innerText = "...מעבד";
+            document.getElementById('resultArea').classList.remove('hidden');
+            output.innerHTML = "ה-AI בונה לך את חבילת הלמידה. בשימוש ראשון זה יכול לקחת 20 שניות...";
+
             try {
                 const response = await fetch('https://my-smart-study.onrender.com/summarize', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: text })
+                    body: JSON.stringify({ text: text, mode: mode })
                 });
-
-                if (!response.ok) throw new Error();
-
                 const data = await response.json();
-                resultArea.classList.remove('hidden');
-                let formatted = data.summary.replace(/\*\*(.*?)\*\*/g, '<b class="text-blue-400 font-black">$1</b>');
-                output.innerHTML = formatted.replace(/\n/g, '<br>');
-                resultArea.scrollIntoView({ behavior: 'smooth' });
-                btn.innerText = "צור סיכום חבילה מלאה 🚀";
+                let clean = data.summary.replace(/\*\*(.*?)\*\*/g, '<b class="text-blue-400">$1</b>');
+                output.innerHTML = clean.replace(/\n/g, '<br>');
+                document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
             } catch (e) {
-                alert("השרת מתעורר! 🚀 בגלל שלא השתמשת בו זמן מה, הוא היה ב'שינה'. לחץ שוב בעוד 15 שניות וזה יעבוד מושלם.");
-                btn.innerText = "לחץ שוב לביצוע 🔄";
+                alert("השרת מתעורר... נסה שוב בעוד כמה שניות.");
             } finally {
                 btn.disabled = false;
+                btn.innerText = originalText;
             }
         }
 
-        function payNow() {
-            alert("מערכת התשלומים תופעל בגרסה הבאה. כרגע הגרסה פתוחה בחינם לכולם! 🎉");
+        // Pomodoro Timer
+        let pomoInterval;
+        function startPomo() {
+            let seconds = 25 * 60;
+            const display = document.getElementById('pomoTimer');
+            if (pomoInterval) clearInterval(pomoInterval);
+            
+            pomoInterval = setInterval(() => {
+                let mins = Math.floor(seconds / 60);
+                let secs = seconds % 60;
+                display.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                if (seconds <= 0) {
+                    clearInterval(pomoInterval);
+                    alert("זמן להפסקה! נחת 5 דקות?");
+                }
+                seconds--;
+            }, 1000);
         }
 
         function speakText() {
             const msg = new SpeechSynthesisUtterance(document.getElementById('summaryOutput').innerText);
             msg.lang = 'he-IL';
-            msg.rate = 0.9;
             window.speechSynthesis.speak(msg);
-        }
-
-        function copyText() {
-            navigator.clipboard.writeText(document.getElementById('summaryOutput').innerText);
-            alert("הסיכום הועתק ללוח!");
         }
     </script>
 </body>
